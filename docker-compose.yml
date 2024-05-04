@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  database:
+    env_file:
+      - docker.env
+    image: "postgres:14.6"
+    restart: always
+    ports:
+      - "5434:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data/pgdata
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+  backend:
+    env_file:
+      - docker.env
+    build: 
+      context: ./
+      dockerfile: ./backend/Dockerfile
+    ports: 
+      - "8080:8080"
+    depends_on:
+      - database
+  frontend:
+    env_file:
+      - docker.env
+    build: 
+      context: ./
+      dockerfile: ./frontend/Dockerfile
+    ports: 
+      - "8000:8000"
+    depends_on:
+      - backend
+volumes:
+  dbdata:

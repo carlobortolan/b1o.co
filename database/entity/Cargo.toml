@@ -1,0 +1,15 @@
+[package]
+name = "entity"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "entity"
+path = "src/lib.rs"
+
+[dependencies]
+gloo-utils = { version = "0.1.5", features = ["serde"]}
+sea-orm = "0.10.1"
+serde = "1.0.147"
+strum = { version = "0.24.1", features = ["strum_macros", "derive"]}

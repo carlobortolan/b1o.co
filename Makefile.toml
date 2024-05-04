@@ -1,0 +1,68 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+FRONTEND_PATH = "./frontend"
+BACKEND_PATH = "./backend"
+
+# INSTALL FRONTEND
+
+[tasks.install_front]
+workspace = false
+command = "pnpm"
+args = ["install", "--dir", "${FRONTEND_PATH}"]
+
+# START FRONTEND
+
+[tasks.start_front_dev]
+workspace = false
+command = "pnpm"
+args = ["run", "--dir", "${FRONTEND_PATH}", "dev"]
+
+[tasks.start_front]
+workspace = false
+run_task = [
+    { name = ["install_front", "build_front", "start_front_prod"], condition = { profile = "release" } },
+    { name = ["intall_front", "start_front_dev"] },
+]
+
+[tasks.start_front_prod]
+install_crate = { crate_name = "simple-http-server", test_arg = "--help" }
+workspace = false
+command = "simple-http-server"
+args = ["${FRONTEND_PATH}/dist", "-i", "-p", "8000", "--nocache", "--try-file", "${FRONTEND_PATH}/dist/index.html"]
+
+[tasks.install_start_front]
+workspace = false
+run_task = { name = ["install_front", "start_front"] }
+
+# BUILD FRONTEND
+
+[tasks.build_front]
+workspace = false
+command = "pnpm"
+args = ["run", "--dir", "${FRONTEND_PATH}", "build"]
+
+[tasks.install_build_start_front_prod]
+workspace = false
+run_task = { name = ["install_front", "build_front", "start_front_prod"] }
+
+# START BACKEND
+
+[tasks.start_back]
+workspace = false
+command = "cargo"
+args = ["run", "--manifest-path", "${BACKEND_PATH}/Cargo.toml"]
+
+[tasks.start_back_prod]
+workspace = false
+command = "cargo"
+args = ["run", "--manifest-path", "${BACKEND_PATH}/Cargo.toml", "--release"]
+
+# START APPLICATION
+
+[tasks.start_all]
+workspace = false
+run_task = { name = ["start_front", "start_back"], parallel = true }
+
+[tasks.start_prod]
+workspace = false
+run_task = { name = ["install_build_start_front_prod", "start_back_prod"], parallel = true }
