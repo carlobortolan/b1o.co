@@ -23,7 +23,11 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Watch::Reference).string().not_null())
                     .col(ColumnDef::new(Watch::Movement).string().not_null())
                     .col(ColumnDef::new(Watch::Manufacturer).string().not_null())
-                    .col(ColumnDef::new(Watch::ManufacturerLocation).string().not_null())
+                    .col(
+                        ColumnDef::new(Watch::ManufacturerLocation)
+                            .string()
+                            .not_null(),
+                    )
                     .col(
                         ColumnDef::new(Watch::AverageRating)
                             .decimal_len(3, 2)

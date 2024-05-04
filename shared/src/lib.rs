@@ -24,6 +24,10 @@ pub const WATCHES_ROUTE: &str = "/watches";
 pub const SINGLE_WATCH_ROUTE: &str = "/watches/{watch_id}";
 pub const REVIEWS_BY_WATCH_ROUTE: &str = "/watches/{watch_id}/reviews";
 
+pub const PLAYERS_ROUTE: &str = "/players";
+pub const SINGLE_PLAYER_ROUTE: &str = "/players/{player_id}";
+pub const NEXT_PLAYER_ROUTE: &str = "/players/next";
+
 pub enum AppComponent {
     Frontend,
     Backend,

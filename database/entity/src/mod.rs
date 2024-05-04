@@ -4,3 +4,4 @@ pub mod prelude;
 
 pub mod watch;
 pub mod review;
+pub mod player;

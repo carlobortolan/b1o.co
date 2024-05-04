@@ -22,7 +22,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Player::Name).string().not_null())
                     .col(ColumnDef::new(Player::Upvotes).integer().not_null())
                     .col(ColumnDef::new(Player::Downvotes).integer().not_null())
-                    .col(ColumnDef::new(Player::Source).integer().not_null())
+                    .col(ColumnDef::new(Player::Source).string().not_null())
                     .col(
                         ColumnDef::new(Player::Date)
                             .timestamp()
@@ -31,14 +31,10 @@ impl MigrationTrait for Migration {
                     )
                     .col(
                         ColumnDef::new(Player::AverageRating)
-                        .decimal_len(6, 2)
-                        .not_null(),
-                    )
-                    .col(
-                        ColumnDef::new(Player::Rating)
                             .decimal_len(6, 2)
                             .not_null(),
                     )
+                    .col(ColumnDef::new(Player::Rating).decimal_len(6, 2).not_null())
                     .to_owned(),
             )
             .await
