@@ -4,12 +4,14 @@ pub use migration;
 pub use migration::sea_orm_migration::MigratorTrait;
 use migration::DbErr;
 use sea_orm::prelude::Decimal;
-use sea_orm::QueryOrder;
+use sea_orm::{sea_query, ConnectionTrait, FromQueryResult, QueryOrder, QuerySelect, QueryTrait};
 use sea_orm::{ActiveModelTrait, ActiveValue, QueryFilter};
 use sea_orm::{ColumnTrait, PaginatorTrait};
+use sea_orm::{DatabaseConnection, Order};
 use sea_orm::{DatabaseTransaction, TransactionTrait};
 use sea_orm::{DbConn, EntityTrait, ModelTrait};
 use sea_orm::{Set, TryIntoModel};
+use sea_query::Func;
 
 pub struct PlayerQueries;
 
@@ -25,8 +27,7 @@ impl PlayerQueries {
             .order_by(player::Column::Rating, sea_orm::Order::Desc)
             .paginate(db, per_page.into());
 
-        let players = paginator.fetch_page(page.into()).await?;
-
+        let players = paginator.fetch_page((page - 1).into()).await?;
         Ok(players)
     }
 
@@ -42,7 +43,7 @@ impl PlayerQueries {
         new_player.date = ActiveValue::NotSet;
         let new_player = new_player.save(&txn).await?;
 
-        // AI precalculation
+        // TODO: AI pre-calculation
         // calc_avg_rating(&txn, id, *new_player.avg_rating.as_ref()).await?;
         // calc_rating(&txn, id, *new_player.rating.as_ref()).await?;
 
@@ -51,37 +52,78 @@ impl PlayerQueries {
         Ok(new_player.try_into_model()?)
     }
 
-    pub async fn update_player(db: &DbConn, player: player::Model) -> Result<player::Model, DbErr> {
-        let txn = db.begin().await?;
+    pub async fn update_player(
+        db: &DbConn,
+        player: entity::player::Model,
+    ) -> Result<entity::player::ActiveModel, DbErr> {
+        let active_player = entity::player::ActiveModel {
+            id: ActiveValue::Set(player.id),
+            name: ActiveValue::Set(player.name),
+            image_url: ActiveValue::Set(player.image_url),
+            upvotes: ActiveValue::Set(player.upvotes),
+            downvotes: ActiveValue::Set(player.downvotes),
+            source: ActiveValue::Set(player.source),
+            date: ActiveValue::Set(player.date),
+            average_rating: ActiveValue::Set(player.average_rating),
+            rating: ActiveValue::Set(player.rating),
+        };
 
-        let active_player = player::ActiveModel::from(player);
-        let updated_player = active_player.save(&txn).await?;
+        let updated_player = active_player.save(db).await?;
 
-        txn.commit().await?;
-
-        Ok(updated_player.try_into_model()?)
+        Ok(updated_player)
     }
 
-    /*   pub async fn find_next(
+    pub async fn find_random_pair(
+        db: &DatabaseConnection,
+    ) -> Result<(entity::player::Model, entity::player::Model), DbErr> {
+        let select = entity::player::Entity::find()
+            .as_query()
+            .to_owned()
+            .order_by_expr(Func::random(), Order::Asc)
+            .limit(2)
+            .to_owned();
+        let statement = db.get_database_backend().build(&select);
+
+        let result = entity::player::Model::find_by_statement(statement)
+            .all(db)
+            .await?;
+
+        if result.len() == 2 {
+            Ok((result[0].clone(), result[1].clone()))
+        } else {
+            Err(DbErr::RecordNotFound(
+                "Not enough players in the database".to_string(),
+            ))
+        }
+    }
+
+    pub async fn find_next(
         db: &DbConn,
-        player: player::Model,
+        player: player::ActiveModel,
         visited_ids: Vec<i32>,
     ) -> Result<Option<player::Model>, DbErr> {
-        let visited_ids = visited_ids
-            .into_iter()
-            .map(|id| id.to_string())
-            .collect::<Vec<_>>()
-            .join(",");
-        let raw_query = format!(
-            "SELECT * FROM player WHERE id != {} AND id NOT IN ({}) ORDER BY ABS(rating - {}) LIMIT 1",
-            player.id, visited_ids, player.rating
-        );
+        let rating = match player.rating {
+            ActiveValue::Set(val) => val,
+            _ => Decimal::new(0, 0),
+        };
 
-        let next_player: Option<player::Model> =
-            sqlx::query_as(&raw_query).fetch_optional(db).await?;
+        // TODO: Adapt proximity to nearest not visited entry
+        let mut query = player::Entity::find()
+            .filter(
+                player::Column::Rating
+                    .between(rating - Decimal::new(1, 0), rating + Decimal::new(1, 0)),
+            )
+            .order_by(player::Column::Rating, Order::Asc)
+            .limit(1);
 
-        Ok(next_player)
-    } */
+        for id in visited_ids {
+            query = query.filter(player::Column::Id.ne(id));
+        }
+
+        let similar_players = query.one(db).await?;
+
+        Ok(similar_players)
+    }
 }
 
 impl WatchQueries {

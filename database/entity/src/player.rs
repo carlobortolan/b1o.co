@@ -18,6 +18,27 @@ pub struct Model {
     pub rating: Decimal,
 }
 
+impl Model {
+    pub fn calculate_score(&mut self, new_upvotes: i32, new_downvotes: i32) {
+        // Update upvotes and downvotes
+        self.upvotes += new_upvotes;
+        self.downvotes += new_downvotes;
+
+        // TODO: Improve by using e.g., https://en.wikipedia.org/wiki/Chess_rating_system#Elo_rating_system
+        // Calculate new average rating and rating
+        // - average rating is the ratio of upvotes to total votes
+        // - rating is the difference between upvotes and downvotes
+        let total_votes = self.upvotes + self.downvotes;
+        if total_votes != 0 {
+            self.average_rating = Decimal::from(self.upvotes) / Decimal::from(total_votes);
+            self.rating = Decimal::from(self.upvotes - self.downvotes);
+        } else {
+            self.average_rating = Decimal::from(0);
+            self.rating = Decimal::from(0);
+        }
+    }
+}
+
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {}
 

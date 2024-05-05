@@ -24,9 +24,11 @@ pub const WATCHES_ROUTE: &str = "/watches";
 pub const SINGLE_WATCH_ROUTE: &str = "/watches/{watch_id}";
 pub const REVIEWS_BY_WATCH_ROUTE: &str = "/watches/{watch_id}/reviews";
 
-pub const PLAYERS_ROUTE: &str = "/players";
+pub const PLAYERS_ROUTE: &str = "/player";
 pub const SINGLE_PLAYER_ROUTE: &str = "/players/{player_id}";
-pub const NEXT_PLAYER_ROUTE: &str = "/players/next";
+pub const NEXT_PLAYER_ROUTE: &str = "/next";
+pub const START_ROUTE: &str = "/start";
+pub const SCOREBOARD_ROUTE: &str = "/scoreboard";
 
 pub enum AppComponent {
     Frontend,
@@ -36,6 +38,18 @@ pub enum AppComponent {
 #[derive(Deserialize)]
 pub struct ApiQueryParams {
     pub expand: Option<String>,
+}
+
+#[derive(Deserialize)]
+pub struct PaginationParams {
+    pub page: Option<u32>,
+    pub limit: Option<u32>,
+}
+
+#[derive(Deserialize)]
+pub struct NextPlayerParams {
+    pub winner: u32,
+    pub loser: u32,
 }
 
 pub fn init_database_url() -> Url {
