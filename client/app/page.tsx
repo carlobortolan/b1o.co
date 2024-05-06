@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 export default function Home() {
   const [left, setLeft] = useState<ScoreboardItem>();
   const [right, setRight] = useState<ScoreboardItem>();
-  const [visitedPlayers, setVisitedPlayers] = useState<number[]>([]);
+  const [visitedPlayers, setVisitedPlayers] = useState<number[]>([1, 2, 3, 5]);
   const [leftIsLoading, setLeftIsLoading] = useState(false);
   const [rightIsLoading, setRightIsLoading] = useState(false);
 
@@ -62,7 +62,7 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ visited_ids: visitedPlayers }),
+      body: JSON.stringify({ visited_ids: visitedPlayers ?? [] }),
     })
       .then((response) => {
         if (!response.ok) {

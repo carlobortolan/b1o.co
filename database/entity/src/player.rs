@@ -19,23 +19,35 @@ pub struct Model {
 }
 
 impl Model {
-    pub fn calculate_score(&mut self, new_upvotes: i32, new_downvotes: i32, others_rating: f32) {
+    pub fn calculate_rating(&mut self, win: bool, others_rating: f32) {
         // Update upvotes and downvotes
-        self.upvotes += new_upvotes;
-        self.downvotes += new_downvotes;
+        if win {
+            self.upvotes += 1;
+        } else {
+            self.downvotes += 1;
+        }
 
         // TODO: Improve by using e.g., https://en.wikipedia.org/wiki/Chess_rating_system#Elo_rating_system
         // Calculate new average rating and rating
         // - average rating is the ratio of upvotes to total votes
         // - rating is the difference between upvotes and downvotes
-        self.rating = 1f32 / (1f32 + 10f32.powf(self.rating - others_rating) / 400f32);
+        let exp_rating = Self::calculate_exp(self.rating, others_rating);
+        self.rating = self.rating + 100f32 * (if win { 1f32 } else { 0f32 } - exp_rating);
 
+        self.calculate_avg_rating();
+    }
+
+    fn calculate_avg_rating(&mut self) {
         let total_votes = self.upvotes + self.downvotes;
         if total_votes != 0 {
             self.average_rating = self.upvotes as f32 / total_votes as f32;
         } else {
             self.average_rating = 0f32;
         }
+    }
+
+    fn calculate_exp(rating_a: f32, rating_b: f32) -> f32 {
+        return 1f32 / (1f32 + 10f32.powf(rating_b - rating_a) / 400f32);
     }
 }
 

@@ -10,7 +10,7 @@ use database::{
 use serde::Deserialize;
 use shared::NextPlayerParams;
 
-pub async fn update_scores(
+pub async fn update_ratings(
     db: &DbConn,
     winner: i32,
     loser: i32,
@@ -28,8 +28,9 @@ pub async fn update_scores(
         );
 
         // Update scores
-        winner_player.calculate_score(1, 0, loser_player.rating);
-        loser_player.calculate_score(0, 1, winner_player.rating);
+
+        winner_player.calculate_rating(true, loser_player.rating);
+        loser_player.calculate_rating(false, winner_player.rating);
 
         // Log ratings after update
         log::info!(
@@ -60,7 +61,7 @@ pub async fn next_player(
 
     log::info!("Scoring [Winner: {}, Loser: {}]", winner, loser);
 
-    match update_scores(db, winner, loser).await {
+    match update_ratings(db, winner, loser).await {
         Ok((winner, _)) => {
             // After updating scores, fetch the "next player"
             match PlayerQueries::find_next(db, winner, visited_ids.visited_ids.clone()).await {

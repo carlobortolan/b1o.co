@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Imprint() {
   return (
@@ -13,25 +14,25 @@ export default function Imprint() {
         <div className="mb-0 md:px-16 lg:px-24">
           <h1 className="text-4xl mb-4">IMPRINT</h1>
           <p className="text-2xl">2me.ai is operated by:</p>
-          <p>
-            <code>
-              Carlo Bortolan
-              <br />
-              Heimstättenstraße 6
-              <br />
-              Munich, 80805
-              <br />
-              Germany
-            </code>
-          </p>
+          <Image
+            className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
+            src="/imprint1.png"
+            alt="imprint1"
+            width={200}
+            height={250}
+            priority
+          />
           <br />
+          <p className="text-2xl">Contact:</p>
           <p>
-            <p className="text-2xl">Contact:</p>
-            <code>
-              Email: carlobortolan@gmail.com
-              <br />
-              Phone: +49 152 25237383
-            </code>
+            <Image
+              className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
+              src="/imprint2.png"
+              alt="imprint2"
+              width={300}
+              height={300}
+              priority
+            />
           </p>
         </div>
       </div>

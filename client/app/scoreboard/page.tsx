@@ -14,7 +14,7 @@ export default function Scoreboard() {
     console.log("loadMore called");
     if (!loading && hasMore) {
       setLoading(true);
-      fetch(`http://localhost:8080/scoreboard?page=${page}&limit=10`)
+      fetch(`http://localhost:8080/scoreboard?page=${page}&limit=48`)
         .then((response) => response.json())
         .then((newData) => {
           setData((prevData) => [...prevData, ...newData]);
@@ -111,7 +111,7 @@ export default function Scoreboard() {
           <div className="col-span-full text-center">
             <button
               onClick={loadMore}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
+              className="px-6 py-3 mt-4 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:w-80px lg:rounded-xl lg:border lg:bg-gray-200 lg:dark:bg-zinc-800/30 text-white rounded dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
             >
               Load more
             </button>
