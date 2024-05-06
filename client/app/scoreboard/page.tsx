@@ -1,19 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-
-type ScoreboardItem = {
-  id: number;
-  image_url: string;
-  name: string;
-  upvotes: number;
-  downvotes: number;
-  source: string;
-  date: string;
-  average_rating: string;
-  rating: string;
-};
+import { ScoreboardItem } from "@/types/player";
 
 export default function Home() {
   const [data, setData] = useState<ScoreboardItem[]>([]);
@@ -115,7 +104,7 @@ export default function Home() {
         )}
         {!hasMore && (
           <div className="col-span-full text-center text-gray-500">
-            You've reached the end!
+            You&apos;ve reached the end!
           </div>
         )}
         {hasMore && !loading && (
