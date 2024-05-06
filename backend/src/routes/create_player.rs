@@ -27,6 +27,8 @@ pub async fn create_player(
         name: new_player.name.clone(),
         image_url: new_player.image_url.clone(),
         source: new_player.source.clone(),
+        rating: 1400f32,
+        average_rating: 0f32,
         ..Default::default()
     };
 

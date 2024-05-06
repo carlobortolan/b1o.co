@@ -24,14 +24,23 @@ export default function About() {
         <h1 className="text-4xl mb-4">About 2me.ai</h1>
         <p className="text-justify">
           2me.ai is a platform where users can vote for their favorite images.
-          Inspired from the Elo rating system used in chess, each image is
-          assigned a score. When a user votes for an image, it&apos;s considered
-          a &quot;win&quot; for that image against the one it was compared to.
-          The winning image gains points, and the amount it gains depends on the
-          difference in scores between the two images. If the winning image had
-          a lower score initially, it gains more points. Conversely, if it had a
-          higher score, it gains fewer points. The losing image loses the same
-          number of points that the winning image gains.
+          Inspired from the{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Elo_rating_system#Theory"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            Elo rating system
+          </a>
+          used in chess, each image is assigned a score. When a user votes for
+          an image, it&apos;s considered a &quot;win&quot; for that image
+          against the one it was compared to. The winning image gains points,
+          and the amount it gains depends on the difference in scores between
+          the two images. If the winning image had a lower score initially, it
+          gains more points. Conversely, if it had a higher score, it gains
+          fewer points. The losing image loses the same number of points that
+          the winning image gains.
         </p>
         <p className="text-justify">
           AI is used to analyze voting patterns and image characteristics to

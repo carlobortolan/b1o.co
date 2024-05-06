@@ -3,7 +3,7 @@
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize, Default)]
+#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize, Default)]
 #[sea_orm(table_name = "player")]
 pub struct Model {
     #[sea_orm(primary_key)]
@@ -14,12 +14,12 @@ pub struct Model {
     pub downvotes: i32,
     pub source: String,
     pub date: DateTime,
-    pub average_rating: Decimal,
-    pub rating: Decimal,
+    pub average_rating: f32,
+    pub rating: f32,
 }
 
 impl Model {
-    pub fn calculate_score(&mut self, new_upvotes: i32, new_downvotes: i32) {
+    pub fn calculate_score(&mut self, new_upvotes: i32, new_downvotes: i32, others_rating: f32) {
         // Update upvotes and downvotes
         self.upvotes += new_upvotes;
         self.downvotes += new_downvotes;
@@ -28,13 +28,13 @@ impl Model {
         // Calculate new average rating and rating
         // - average rating is the ratio of upvotes to total votes
         // - rating is the difference between upvotes and downvotes
+        self.rating = 1f32 / (1f32 + 10f32.powf(self.rating - others_rating) / 400f32);
+
         let total_votes = self.upvotes + self.downvotes;
         if total_votes != 0 {
-            self.average_rating = Decimal::from(self.upvotes) / Decimal::from(total_votes);
-            self.rating = Decimal::from(self.upvotes - self.downvotes);
+            self.average_rating = self.upvotes as f32 / total_votes as f32;
         } else {
-            self.average_rating = Decimal::from(0);
-            self.rating = Decimal::from(0);
+            self.average_rating = 0f32;
         }
     }
 }

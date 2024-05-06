@@ -28,8 +28,8 @@ pub async fn update_scores(
         );
 
         // Update scores
-        winner_player.calculate_score(1, 0);
-        loser_player.calculate_score(0, 1);
+        winner_player.calculate_score(1, 0, loser_player.rating);
+        loser_player.calculate_score(0, 1, winner_player.rating);
 
         // Log ratings after update
         log::info!(

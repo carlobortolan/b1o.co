@@ -31,10 +31,16 @@ impl MigrationTrait for Migration {
                     )
                     .col(
                         ColumnDef::new(Player::AverageRating)
-                            .decimal_len(6, 2)
-                            .not_null(),
+                            .float()
+                            .not_null()
+                            .default(0f32),
                     )
-                    .col(ColumnDef::new(Player::Rating).decimal_len(6, 2).not_null())
+                    .col(
+                        ColumnDef::new(Player::Rating)
+                            .float()
+                            .not_null()
+                            .default(1400f32),
+                    )
                     .to_owned(),
             )
             .await

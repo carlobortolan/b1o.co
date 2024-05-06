@@ -104,15 +104,12 @@ impl PlayerQueries {
     ) -> Result<Option<player::Model>, DbErr> {
         let rating = match player.rating {
             ActiveValue::Set(val) => val,
-            _ => Decimal::new(0, 0),
+            _ => 0f32,
         };
 
         // TODO: Adapt proximity to nearest not visited entry
         let mut query = player::Entity::find()
-            .filter(
-                player::Column::Rating
-                    .between(rating - Decimal::new(1, 0), rating + Decimal::new(1, 0)),
-            )
+            .filter(player::Column::Rating.between(rating - 1f32, rating + 1f32))
             .order_by(player::Column::Rating, Order::Asc)
             .limit(1);
 
