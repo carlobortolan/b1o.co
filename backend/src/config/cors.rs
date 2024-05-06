@@ -13,6 +13,7 @@ pub fn get_cors_config(env: &Env) -> Cors {
         .allowed_origin(&url)
         // TODO: Workaround for CORS-Frontend issue
         .allowed_origin("https://ticktack.carlobortolan.com")
+        .allowed_origin("http://localhost:3000")
         .allowed_methods(vec![Method::GET, Method::POST])
         .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
         .allowed_header(http::header::CONTENT_TYPE)
