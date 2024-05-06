@@ -14,7 +14,7 @@ pub fn get_cors_config(env: &Env) -> Cors {
         // TODO: Workaround for CORS-Frontend issue
         .allowed_origin("https://ticktack.carlobortolan.com")
         .allowed_origin("http://localhost:3000")
-        .allowed_methods(vec![Method::GET, Method::POST])
+        .allowed_methods(vec![Method::GET, Method::POST, Method::PATCH])
         .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
         .allowed_header(http::header::CONTENT_TYPE)
         .max_age(3600)

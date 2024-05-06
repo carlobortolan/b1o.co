@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ScoreboardItem } from "@/types/player";
 
-export default function Home() {
+export default function Scoreboard() {
   const [data, setData] = useState<ScoreboardItem[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 ">
+    <main className="flex min-h-screen flex-col items-center justify-between p-6 pt-24 lg:p-24 lg:pt-16">
       <div className="z-10 w-full max-w-10xl items-center justify-between font-mono text-sm lg:flex mb-5">
         <Link
           href="/"
