@@ -1,4 +1,5 @@
 #!/bin/bash
+# Script to manually post 200 samples
 
 for i in {1..200}
 do

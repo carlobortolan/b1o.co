@@ -5,6 +5,18 @@ A Full-Stack Rust application where users can vote for their favorite images. In
 > [!WARNING]
 > At the moment, the API is deployed on render ([**_https://api.b1o.co_**](https://api.b1o.co)) which can lead to significant loading times when opening the web-app.
 
+## Overview
+
+- [`/backend`](/backend): Rust API
+
+- [`/client`](/client): Next.js client
+
+- [`/crawler`](/crawler): Perl script to gather data (following a similar concept to [PageRank's web-indexing](https://en.wikipedia.org/wiki/Web_crawler#Overview)) 
+
+- [`/database`](/database): database models, migrations and seeds
+
+- [`/shared`](/shared): resources used by two or more components
+
 ## CONFIG
 
 <details><summary><b>Start backend</b></summary>
