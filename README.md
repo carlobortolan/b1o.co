@@ -1,9 +1,9 @@
-# [b1o.co](https://b1o.co)
+# [b1o.co](https://b1o.co/about)
 
 A Full-Stack Rust application where users can vote for their favorite images. Inspired from the [Elo rating system](https://en.wikipedia.org/wiki/Elo_rating_system#Theory) used in chess, each image is assigned a rating. A [Multi-Layer Feed-Forward Network](https://en.wikipedia.org/wiki/Feedforward_neural_network#Mathematical_foundations) is then used to analyze voting patterns and image characteristics to predict accurate base rankings for new images.
 
-> [!INFO]
-> At the moment, [**_https://b1o-api.onrender.com_**](https://b1o-api.onrender.com) hosts the API and [**_https://b1o.co_**](https://b1o.co) hosts the Frontend.
+> [!WARNING]
+> At the moment, the API is deployed on render ([**_https://b1o-api.onrender.com_**](https://b1o-api.onrender.com)) which can lead to significant loading times when opening the web-app.
 
 ## CONFIG
 
