@@ -12,6 +12,10 @@ Additionally, it logs the URLs of visited and queued sites, along with some addi
 > [!TIP]
 > The script can be limited to visiting a maximum number of URLs by changing the value of the `$limit` variable. It also maintains a blacklist of keywords to avoid queuing certain types of URLs.
 
+## Architecture (planned)
+
+![WebCrawlerArchitecture svg](https://github.com/carlobortolan/b1o.co/assets/106114526/41239a82-d27a-4506-a612-49ea21c79cfc)
+
 ## Config
 
 1. Install the necessary dependencies:
@@ -21,8 +25,8 @@ Additionally, it logs the URLs of visited and queued sites, along with some addi
    cpan install LWP::Protocol::https
    ```
 
-   > [!NOTE]
-   > You might have to run those commands as a user with admin privileges (e.g., `sudo cspan Text::CSV`)
+> [!NOTE]
+> You might have to run those commands as a user with admin privileges (e.g., `sudo cspan Text::CSV`)
 
 2. Run the script:
 
