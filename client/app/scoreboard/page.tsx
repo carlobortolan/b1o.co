@@ -14,7 +14,7 @@ export default function Scoreboard() {
     console.log("loadMore called");
     if (!loading && hasMore) {
       setLoading(true);
-      fetch(`https://b1o.onrender.com/scoreboard?page=${page}&limit=48`)
+      fetch(`https://api.b1o.co/scoreboard?page=${page}&limit=48`)
         .then((response) => response.json())
         .then((newData) => {
           setData((prevData) => [...prevData, ...newData]);
