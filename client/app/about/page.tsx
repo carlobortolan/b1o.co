@@ -52,7 +52,15 @@ export default function About() {
           gains.
         </p>
         <p className="text-justify">
-          AI is used to analyze voting patterns and image characteristics to
+          <a
+            href="https://en.wikipedia.org/wiki/Feedforward_neural_network#Mathematical_foundations"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            A Multi-Layer Feed-Forward Network
+          </a>{" "}
+          is then used to analyze voting patterns and image characteristics to
           predict accurate base rankings for new images. As always, any use of
           AI is done with the utmost respect for user privacy and without the
           use of cookies or any form of tracking. <br /> The b1o.co API is
