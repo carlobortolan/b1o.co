@@ -12,7 +12,7 @@ pub fn get_cors_config(env: &Env) -> Cors {
     Cors::default()
         .allowed_origin(&url)
         // TODO: Workaround for CORS-Frontend issue
-        .allowed_origin("https://2me-ai.vercel.app")
+        .allowed_origin("https://b1o.co")
         .allowed_origin("http://localhost:3000")
         .allowed_methods(vec![Method::GET, Method::POST, Method::PATCH])
         .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
