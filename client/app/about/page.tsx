@@ -72,11 +72,9 @@ export default function About() {
         <p className="text-justify">
           In terms of data storage, no personal data is stored. The images you
           see on b1o.co are not stored on b1o.co&apos;s servers. Instead, only
-          the references to images that are hosted elsewhere are stored. This
-          approach allows us to keep our data footprint small and respect user
-          privacy. Furthermore, to protect your privacy, no cookies are used.
-          This means that your activity and data can&apos;t be tracked or
-          collected.
+          the references to images that are hosted elsewhere are stored.
+          Furthermore, to protect your privacy, no cookies are used. This means
+          that your activity and data can&apos;t be tracked or collected.
         </p>
       </div>
     </main>
