@@ -17,7 +17,7 @@ export default function Home() {
   }, []);
 
   const handleStart = () => {
-    fetch("http://localhost:8080/start", {
+    fetch("https://b1o.onrender.com/start", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export default function Home() {
 
   const handleClickLeft = () => {
     setRightIsLoading(true);
-    fetch(`http://localhost:8080/next?winner=${left?.id}&loser=${right?.id}`, {
+    fetch(`https://b1o.onrender.com/next?winner=${left?.id}&loser=${right?.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export default function Home() {
 
   const handleClickRight = () => {
     setLeftIsLoading(true);
-    fetch(`http://localhost:8080/next?winner=${right?.id}&loser=${left?.id}`, {
+    fetch(`https://b1o.onrender.com/next?winner=${right?.id}&loser=${left?.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
