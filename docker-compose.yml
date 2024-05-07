@@ -26,9 +26,9 @@ services:
       - docker.env
     build: 
       context: ./
-      dockerfile: ./frontend/Dockerfile
+      dockerfile: ./client/Dockerfile
     ports: 
-      - "8000:8000"
+      - "3000:3000"
     depends_on:
       - backend
 volumes:
