@@ -4,13 +4,11 @@ use actix_web::{
 };
 use config::{app_state::AppState, cors::get_cors_config, database::get_db_config, env::Env};
 use routes::{
-    add_review::add_review, all_players::all_players, all_watches::watches,
-    create_player::create_player, next_player::next_player, one_player_by_id::one_player_by_id,
-    one_watch_by_id::one_watch_by_id, start::start,
+    all_players::all_players, create_player::create_player, next_player::next_player,
+    one_player_by_id::one_player_by_id, start::start,
 };
 use shared::{
-    NEXT_PLAYER_ROUTE, PLAYERS_ROUTE, REVIEWS_BY_WATCH_ROUTE, SCOREBOARD_ROUTE,
-    SINGLE_PLAYER_ROUTE, SINGLE_WATCH_ROUTE, START_ROUTE, WATCHES_ROUTE,
+    NEXT_PLAYER_ROUTE, PLAYERS_ROUTE, SCOREBOARD_ROUTE, SINGLE_PLAYER_ROUTE, START_ROUTE,
 };
 use std::io::Error;
 
@@ -46,9 +44,6 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(Data::new(state.clone()))
             .wrap(cors)
-            .route(WATCHES_ROUTE, web::get().to(watches))
-            .route(SINGLE_WATCH_ROUTE, web::get().to(one_watch_by_id))
-            .route(REVIEWS_BY_WATCH_ROUTE, web::post().to(add_review))
             .route(PLAYERS_ROUTE, web::post().to(create_player))
             .route(NEXT_PLAYER_ROUTE, web::patch().to(next_player))
             .route(START_ROUTE, web::post().to(start))

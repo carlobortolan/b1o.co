@@ -2,5 +2,3 @@
 pub mod prelude;
 
 pub mod player;
-pub mod review;
-pub mod watch;

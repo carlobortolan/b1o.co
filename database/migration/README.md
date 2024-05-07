@@ -40,6 +40,9 @@
   cargo run -- status
   ```
 
+> ![NOTE]
+> You might have to run `iconv -f utf-16 -t utf-8 data/players.csv > data/players.csv` before seeding the db when using non utf-8 encoded .csv files. 
+
 ---
 
 © Carlo Bortolan
