@@ -23,16 +23,16 @@ export default function About() {
         <Image
           className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
           src="/banner.jpeg"
-          alt="2me.ai logo"
+          alt="b1o.co logo"
           width={800}
           height={400}
           priority
         />
       </div>
       <div className="mb-0 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <h1 className="text-4xl mb-4">About 2me.ai</h1>
+        <h1 className="text-4xl mb-4">About b1o.co</h1>
         <p className="text-justify">
-          2me.ai is a platform where users can vote for their favorite images.
+          b1o.co is a platform where users can vote for their favorite images.
           Inspired from the{" "}
           <a
             href="https://en.wikipedia.org/wiki/Elo_rating_system#Theory"
@@ -55,12 +55,12 @@ export default function About() {
           AI is used to analyze voting patterns and image characteristics to
           predict accurate base rankings for new images. As always, any use of
           AI is done with the utmost respect for user privacy and without the
-          use of cookies or any form of tracking. <br /> The 2me.ai API is
+          use of cookies or any form of tracking. <br /> The b1o.co API is
           written in Rust and uses the Actix web framework to provide a fast
           experience for users. If you find any issues or have suggestions for
           improvement, please submit them{" "}
           <a
-            href="https://github.com/carlobortolan/2me.ai/issues"
+            href="https://github.com/carlobortolan/b1o.co/issues"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-500 hover:underline"
@@ -71,7 +71,7 @@ export default function About() {
         </p>
         <p className="text-justify">
           In terms of data storage, no personal data is stored. The images you
-          see on 2me.ai are not stored on 2me.ai&apos;s servers. Instead, only
+          see on b1o.co are not stored on b1o.co&apos;s servers. Instead, only
           the references to images that are hosted elsewhere are stored. This
           approach allows us to keep our data footprint small and respect user
           privacy. Furthermore, to protect your privacy, no cookies are used.

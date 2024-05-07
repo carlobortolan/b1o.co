@@ -13,7 +13,7 @@ export default function Imprint() {
         </Link>
         <div className="mb-0 md:px-16 lg:px-24">
           <h1 className="text-4xl mb-4">IMPRINT</h1>
-          <p className="text-2xl">2me.ai is operated by:</p>
+          <p className="text-2xl">b1o.co is operated by:</p>
           <Image
             className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
             src="/imprint1.png"
