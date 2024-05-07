@@ -105,7 +105,12 @@ export default function Home() {
         </Link>
       </div>
       <div className="mb-32 grid text-center lg:w-full lg:max-w-5xl lg:grid-cols-2 lg:text-left">
-        <div key={left.id} onClick={() => handleClickLeft()}>
+        <div
+          key={left.id}
+          onClick={() => {
+            if (!leftIsLoading) handleClickLeft();
+          }}
+        >
           {leftIsLoading ? (
             <div>Loading...</div>
           ) : (
@@ -127,7 +132,12 @@ export default function Home() {
             </div>
           )}
         </div>
-        <div key={right.id} onClick={() => handleClickRight()}>
+        <div
+          key={right.id}
+          onClick={() => {
+            if (!rightIsLoading) handleClickRight();
+          }}
+        >
           {rightIsLoading ? (
             <div>Loading...</div>
           ) : (

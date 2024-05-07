@@ -11,7 +11,6 @@ export default function Scoreboard() {
   const [hasMore, setHasMore] = useState(true);
 
   const loadMore = () => {
-    console.log("loadMore called");
     if (!loading && hasMore) {
       setLoading(true);
       fetch(`https://api.b1o.co/scoreboard?page=${page}&limit=48`)
@@ -29,8 +28,11 @@ export default function Scoreboard() {
   };
 
   useEffect(() => {
-    console.log("useEffect called");
-    // loadMore();
+    setLoading(true);
+    const timer = setTimeout(() => {
+      loadMore();
+    }, 1000); // 1000 milliseconds = 1 seconds
+    return () => clearTimeout(timer);
   }, []);
 
   return (
