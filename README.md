@@ -1,9 +1,9 @@
-# b1o.co
+# [b1o.co](https://b1o.co)
 
-A Full-Stack [Rust](https://www.rust-lang.org/) application where users can vote for their favorite images. Inspired from the [Elo rating system](https://en.wikipedia.org/wiki/Elo_rating_system#Theory) used in chess, each image is assigned a rating. A [Multi-Layer Feed-Forward Network](https://en.wikipedia.org/wiki/Feedforward_neural_network#Mathematical_foundations) is then used to analyze voting patterns and image characteristics to predict accurate base rankings for new images.
+A Full-Stack Rust application where users can vote for their favorite images. Inspired from the [Elo rating system](https://en.wikipedia.org/wiki/Elo_rating_system#Theory) used in chess, each image is assigned a rating. A [Multi-Layer Feed-Forward Network](https://en.wikipedia.org/wiki/Feedforward_neural_network#Mathematical_foundations) is then used to analyze voting patterns and image characteristics to predict accurate base rankings for new images.
 
-> [!WARNING]
-> At the moment [**_https://b1o-api.onrender.com_**](https://b1o-api.onrender.com) hosts the API and [**_https://b1o.com_**](https://b1o.co) \_hosts the Frontend.
+> [!INFO]
+> At the moment, [**_https://b1o-api.onrender.com_**](https://b1o-api.onrender.com) hosts the API and [**_https://b1o.co_**](https://b1o.co) hosts the Frontend.
 
 ## CONFIG
 
