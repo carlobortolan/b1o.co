@@ -52,13 +52,14 @@ export default function About() {
           gains.
         </p>
         <p className="text-justify">
+          A{" "}
           <a
             href="https://en.wikipedia.org/wiki/Feedforward_neural_network#Mathematical_foundations"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-500 hover:underline"
           >
-            A Multi-Layer Feed-Forward Network
+            Multi-Layer Feed-Forward Network
           </a>{" "}
           is then used to analyze voting patterns and image characteristics to
           predict accurate base rankings for new images. As always, any use of
