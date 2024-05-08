@@ -35,9 +35,9 @@ sub run {
         lock(@SharedData::shared_queue);
         if (!exists $SharedData::visited_urls{$seed_page} && !grep { $_ eq $seed_page } @SharedData::shared_queue) {
             push @SharedData::shared_queue, $seed_page;
-            print "\tQueue: @SharedData::shared_queue\n";
-            print "\tVisited URLs: ", join(", ", keys %SharedData::visited_urls), "\n";
-            print "\tEnqueued $seed_page\n";
+            # print "\tQueue: @SharedData::shared_queue\n";
+            # print "\tVisited URLs: ", join(", ", keys %SharedData::visited_urls), "\n";
+            # print "\tEnqueued $seed_page\n";
         }
     }
     my $limit = $ENV{QUERY_LIMIT} // 10;
@@ -61,10 +61,10 @@ sub run {
     my $ua = LWP::UserAgent->new;
     $ua->agent("Mozilla/5.0");
 
-    print "Queue: @SharedData::shared_queue\n";
-    print "Visited URLs: ", join(", ", keys %SharedData::visited_urls), "\n";
-    print "Limit: $limit\n";
-    while (@SharedData::shared_queue and keys %SharedData::visited_urls < $limit) {
+    # print "Queue: @SharedData::shared_queue\n";
+    # print "Visited URLs: ", join(", ", keys %SharedData::visited_urls), "\n";
+    # print "Limit: $limit\n";
+    while (@SharedData::shared_queue and keys %SharedData::request_counts < $limit) {
         my $url;
         {
             lock(@SharedData::shared_queue);
