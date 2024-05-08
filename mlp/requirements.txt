@@ -1,0 +1,8 @@
+pymongo
+python-dotenv
+requests
+numpy
+scikit-learn
+tensorflow
+Pillow
+imbalanced-learn

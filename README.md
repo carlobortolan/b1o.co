@@ -15,6 +15,8 @@ A Full-Stack Rust application where users can vote for their favorite images. In
 
 - [`/database`](/database): database models, migrations and seeds
 
+- [`/mlp`](/mlp): Multilayer Feed-Forward Neural Network (type MLP)
+
 - [`/shared`](/shared): resources used by two or more components
 
 ## CONFIG
