@@ -1,10 +1,11 @@
 #!/usr/bin/perl
+
 use threads;
 use strict;
 use warnings;
 use lib '.';
 use SharedData;
-require './run.pl';
+require './Runner.pl';
 
 my $num_threads = 5;
 my @seed_pages = ('https://en.wikipedia.org/wiki/Main_Page', 'https://en.wikipedia.org/wiki/Perl', 'https://en.wikipedia.org/wiki/Python_(programming_language)', 'https://en.wikipedia.org/wiki/Java_(programming_language)', 'https://en.wikipedia.org/wiki/C_(programming_language)');
