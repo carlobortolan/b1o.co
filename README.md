@@ -5,7 +5,7 @@ A Full-Stack Rust application where users can vote for their favorite images. In
 > [!WARNING]
 > At the moment, the API is deployed on render ([**_https://api.b1o.co_**](https://api.b1o.co)) which can lead to significant loading times when opening the web-app.
 
-## Overview
+## OVERVIEW
 
 - [`/backend`](/backend): Rust API
 
