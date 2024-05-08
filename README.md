@@ -11,7 +11,7 @@ A Full-Stack Rust application where users can vote for their favorite images. In
 
 - [`/client`](/client): Next.js client
 
-- [`/crawler`](/crawler): Perl script to gather data (following a similar concept to [PageRank's web-indexing](https://en.wikipedia.org/wiki/Web_crawler#Overview)) 
+- [`/crawler`](/crawler): Perl script to scrape data (following a similar concept to [PageRank's web-indexing](https://en.wikipedia.org/wiki/Web_crawler#Overview)) 
 
 - [`/database`](/database): database models, migrations and seeds
 
