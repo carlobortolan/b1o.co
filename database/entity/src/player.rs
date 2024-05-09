@@ -31,8 +31,9 @@ impl Model {
         // Calculate new average rating and rating
         // - average rating is the ratio of upvotes to total votes
         // - rating is the difference between upvotes and downvotes
+        let k_factor = Self::calculate_k(self.rating, others_rating);
         let exp_rating = Self::calculate_exp(self.rating, others_rating);
-        self.rating += 100f32 * (if win { 1f32 } else { 0f32 } - exp_rating);
+        self.rating += k_factor * (if win { 1f32 } else { 0f32 } - exp_rating);
 
         self.calculate_avg_rating();
     }
@@ -43,6 +44,16 @@ impl Model {
             self.average_rating = self.upvotes as f32 / total_votes as f32;
         } else {
             self.average_rating = 0f32;
+        }
+    }
+
+    fn calculate_k(rating_a: f32, _rating_b: f32) -> f32 {
+        if rating_a < 100.0 {
+            return 40.0;
+        } else if rating_a < 2400.0 {
+            return 20.0;
+        } else {
+            return 10.0;
         }
     }
 
