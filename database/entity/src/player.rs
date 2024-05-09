@@ -32,7 +32,7 @@ impl Model {
         // - average rating is the ratio of upvotes to total votes
         // - rating is the difference between upvotes and downvotes
         let exp_rating = Self::calculate_exp(self.rating, others_rating);
-        self.rating = self.rating + 100f32 * (if win { 1f32 } else { 0f32 } - exp_rating);
+        self.rating += 100f32 * (if win { 1f32 } else { 0f32 } - exp_rating);
 
         self.calculate_avg_rating();
     }
@@ -47,7 +47,7 @@ impl Model {
     }
 
     fn calculate_exp(rating_a: f32, rating_b: f32) -> f32 {
-        return 1f32 / (1f32 + 10f32.powf(rating_b - rating_a) / 400f32);
+        return 1f32 / (10f32.powf((rating_b - rating_a) / 400f32) + 1f32);
     }
 }
 
