@@ -1,6 +1,6 @@
-#backend
+# Backend
 
-The backend project was build mainly with [Actix Web](https://actix.rs/).
+This contains the code for the API deployed at [api.b1o.co](https://api.b1o.co).
 
 ---
 

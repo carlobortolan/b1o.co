@@ -1,7 +1,6 @@
-#database
+# Database
 
-The database project was build primarily using [SeaORM](https://www.sea-ql.org/SeaORM/).
-Be sure to check out the documentation for more info about using it.
+This contains the database models, migrations and seeds for the API deployed at [api.b1o.co](https://api.b1o.co).
 
 ---
 

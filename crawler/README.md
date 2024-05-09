@@ -15,7 +15,7 @@ Additionally, it logs the URLs of visited and queued sites, along with some addi
 > [!WARNING]
 > Currently, the script does not implement any form of prioritization of URLs.
 
-## Architecture (planned)
+## Architecture
 
 ![WebCrawlerArchitecture svg](https://github.com/carlobortolan/b1o.co/assets/106114526/41239a82-d27a-4506-a612-49ea21c79cfc)
 

@@ -21,16 +21,18 @@ pub async fn update_ratings(
 
     if let (Some(mut winner_player), Some(mut loser_player)) = (winner_player, loser_player) {
         // Log ratings before update
+        let winner_rating = winner_player.rating;
+        let loser_rating = loser_player.rating;
+
         log::info!(
             "Before update - Winner rating: {}, Loser rating: {}",
-            winner_player.rating,
-            loser_player.rating
+            winner_rating,
+            loser_rating
         );
 
         // Update scores
-
-        winner_player.calculate_rating(true, loser_player.rating);
-        loser_player.calculate_rating(false, winner_player.rating);
+        winner_player.calculate_rating(true, loser_rating);
+        loser_player.calculate_rating(false, winner_rating);
 
         // Log ratings after update
         log::info!(
