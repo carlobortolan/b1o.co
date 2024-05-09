@@ -17,7 +17,7 @@ import tensorflow as tf
 load_dotenv()
 # Retrieve res from MongoDB
 client = pymongo.MongoClient(os.getenv("MONGO_URL"))
-db = client["spider_web"]
+db = client["spider_web_222908052024"]
 collection = db["scraped_data"]
 data = list(collection.find())
 # Extract features
@@ -42,8 +42,11 @@ def preprocess_data(data):
             print(f"Failed to fetch image: {entry['image_url']}")
             continue
 
-        print(f"Fetched image: {entry['image_url']}")
+        # print(f"Fetched image: {entry['image_url']}")
         image = Image.open(io.BytesIO(response.content))
+
+        # Convert image to grayscale
+        image = image.convert('L')
 
         # Resize image
         image = image.resize((64, 64))
@@ -56,8 +59,8 @@ def preprocess_data(data):
         # Append image data to features
         X.append(image_data_flattened)
 
-        # Append source to labels
-        y.append(entry["source"])
+        # Append category to labels
+        y.append(entry["category"])
 
     # Convert lists to numpy arrays
     X = np.array(X)
@@ -65,6 +68,8 @@ def preprocess_data(data):
 
     # Encode labels
     y = label_encoder.fit_transform(y)
+    category_index = label_encoder.transform(["cat photos"])[0]
+    print(f"Category index for 'cat photos': {category_index}")
 
     # Balance data
     ros = RandomOverSampler(random_state=0)
@@ -81,11 +86,11 @@ X, y = preprocess_data(data)
 model = models.Sequential([
     layers.Dense(64, activation='relu', input_shape=(X.shape[1],)),  # Specify input shape
     layers.Dense(64, activation='relu'),
-    layers.Dense(1, activation='sigmoid')  # Output layer for binary classification
+    layers.Dense(10, activation='softmax')  # Output layer for binary classification
 ])
 
 model.compile(optimizer='adam',
-              loss='binary_crossentropy',  # Binary cross-entropy loss for binary classification
+              loss='categorical_crossentropy',  # Categorical cross-entropy loss for multi-class classification
               metrics=['accuracy'])
 
 # Train-test split
@@ -97,14 +102,14 @@ model.fit(X_train, y_train, epochs=5)
 # Make predictions on new data
 predictions = model.predict(X_test)
 
-# Convert predictions to binary values
-predictions = (predictions > 0.5).astype(int)
+# Select the category with the highest probability
+predictions = np.argmax(predictions, axis=1)
 
 # Evaluate model
 accuracy = accuracy_score(y_test, predictions)
-precision = precision_score(y_test, predictions)
-recall = recall_score(y_test, predictions)
-f1 = f1_score(y_test, predictions)
+precision = precision_score(y_test, predictions, average='weighted')
+recall = recall_score(y_test, predictions, average='weighted')
+f1 = f1_score(y_test, predictions, average='weighted')
 
 print(f"Accuracy: {accuracy}")
 print(f"Precision: {precision}")
@@ -112,7 +117,7 @@ print(f"Recall: {recall}")
 print(f"F1 Score: {f1}")
 
 # Save model
-model.save('model.h5')
+model.save('model.keras')
 
 # Select images based on predictions
 selected_images = [image_url for image_url, prediction in zip(image_urls, predictions) if prediction == 1]

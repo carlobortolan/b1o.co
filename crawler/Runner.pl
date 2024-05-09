@@ -12,7 +12,7 @@ use DateTime;
 use HTML::Entities;
 use WWW::RobotRules;
 
-use constant MAX_REQUESTS_PER_MINUTE => 10;
+use constant MAX_REQUESTS_PER_MINUTE => 100;
 
 # Create a thread to reset the request counts every minute
 threads->create(sub {
@@ -42,7 +42,7 @@ sub run {
     }
     my $limit = $ENV{QUERY_LIMIT} // 10;
     my $timeout = $ENV{TIMEOUT} // 1;
-    my @blacklist = ('meta.', 'Help:', 'Special:', 'File:', 'Talk:', 'User:', 'Wikipedia:', 'Template:', 'Portal:', 'Category:', 'Thread:', 'Index:', 'MediaWiki:', 'Book:', 'Draft:', 'Education Program:', 'TimedText:', 'Module:', 'Gadget:');
+    my @blacklist = ('mailto:', 'meta.', 'Help:', 'Special:', 'File:', 'Talk:', 'User:', 'Wikipedia:', 'Template:', 'Portal:', 'Category:', 'Thread:', 'Index:', 'MediaWiki:', 'Book:', 'Draft:', 'Education Program:', 'TimedText:', 'Module:', 'Gadget:', '.php');
 
     my $output_dir = $ENV{OUTPUT_DIR} // 'data';
 
@@ -60,6 +60,7 @@ sub run {
 
     my $ua = LWP::UserAgent->new;
     $ua->agent("Mozilla/5.0");
+    $ua->timeout(10);
 
     # print "Queue: @SharedData::shared_queue\n";
     # print "Visited URLs: ", join(", ", keys %SharedData::visited_urls), "\n";
@@ -81,13 +82,20 @@ sub run {
             next;
         }
 
+        # Skip non-HTTP(S) URLs
+        my $uri = URI->new($url);
+        if ($uri->scheme !~ /^https?$/) {
+            print "Skipping non-HTTP(S) URL: $url\n";
+            next;
+        }
+
         # Rate limiting
-        my $domain = URI->new($url)->host;
+        my $domain = $uri->host;
         {
             lock(%SharedData::request_counts);
             my $count = $SharedData::request_counts{$domain} // 0;
             if ($count >= MAX_REQUESTS_PER_MINUTE) {
-                print "Rate limit exceeded for $domain, sleeping\n";
+                print "Rate limit exceeded for $domain, sleeping for 60 seconds\n";
                 sleep(60);
             }
             $SharedData::request_counts{$domain} = $count + 1;
@@ -108,7 +116,10 @@ sub run {
         if ($res->is_success) {
             my $content = $res->content;
 
-            my @image_urls = $content =~ /<img[^>]*src="(.*?)"/g;
+            # my @image_urls = $content =~ /<img[^>]*src="(.*?)"/g;
+            my @image_urls = $content =~ /<img[^>]*src="(.*?(\.jpg|\.jpeg|\.png))"/ig;
+            # my @image_urls = $content =~ /<img[^>]*class="[^"]*(x5yr21d xu96u03 x10l6tqk x13vifvy x87ps6o xh8yej3)[^"]*"[^>]*src="(.*?\.(jpg|jpeg|png))"/ig;
+
             my ($title) = $content =~ /<title>(.*?)<\/title>/s;
             $visited->print($fh_v, [$title, $url, $scraping_time, "200 OK"]);
 
@@ -152,9 +163,14 @@ sub run {
             }
 
         } else {
-            print "Couldn't get $url: ", $res->status_line, "\n";
+            if ($res->status_line =~ /read timeout/) {
+                print "Timeout occurred while trying to get $url, skipping.\n";
+            } else {
+                print "Couldn't get $url ", $res->status_line, "\n";
+            }
             $visited->print($fh_v, ['', $url, $scraping_time, $res->status_line]);
         }
+        print "Sleeping for $timeout seconds\n";
         sleep($timeout); # Don't be evil --- be polite ^^
     }
 

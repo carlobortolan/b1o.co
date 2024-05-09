@@ -1,6 +1,24 @@
+# Classifier
+
+`api_classifier.py`, is a classifier that uses the pre-trained ResNet50 model from TensorFlow to classify images from Pexels. It fetches images from specific URLs, preprocesses them, and uses the model to predict their labels. The script is designed to handle a large number of images by using concurrent futures for parallel processing. It also handles exceptions for failed requests or image classification. Once an image is classified, the script posts the image URL, its label (converted from snake_case to Title Case), and the source to the Rust API. The script also includes a filter to skip posting images with certain labels.
+
+## Config
+
+To run, first install necessary dependencies:
+```py
+pip install -r requirements.txt
+```
+and then start the script:
+```py
+python api_classifier.py
+```
+
 # Multilayer Perceptron (MLP)
 
-This model consists of an input layer, one hidden layer, and an output layer:
+> ![NOTE]
+> The MLP is not implemented yet
+
+The model consists of an input layer, one hidden layer, and an output layer:
 
 - The input layer has a number of neurons equal to the number of features in the input data (X.shape[1]), and uses the ReLU (Rectified Linear Unit) activation function.
 - The hidden layer has 64 neurons and also uses the ReLU activation function.

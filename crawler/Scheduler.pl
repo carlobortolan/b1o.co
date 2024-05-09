@@ -7,13 +7,18 @@ use lib '.';
 use SharedData;
 require './Runner.pl';
 
-my $num_threads = 5;
-my @seed_pages = ('https://en.wikipedia.org/wiki/Main_Page', 'https://en.wikipedia.org/wiki/Perl', 'https://en.wikipedia.org/wiki/Python_(programming_language)', 'https://en.wikipedia.org/wiki/Java_(programming_language)', 'https://en.wikipedia.org/wiki/C_(programming_language)');
-my $limit = 10;
+my @seed_pages = (
+    'https://en.wikipedia.org/wiki/Main_Page', 
+    'https://en.wikipedia.org/wiki/Perl', 
+    'https://en.wikipedia.org/wiki/Python_(programming_language)', 
+    'https://en.wikipedia.org/wiki/Java_(programming_language)', 
+    'https://en.wikipedia.org/wiki/C_(programming_language)'
+    );
+my $limit = 500;
 my $timeout = 1;
 
 # Create worker
-for my $i (0..$num_threads-1) {
+for my $i (0..$#seed_pages) {
     threads->create(\&worker, $i+1, $seed_pages[$i], $limit, $timeout);
 }
 

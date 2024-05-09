@@ -1,0 +1,125 @@
+from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input, decode_predictions
+from tensorflow.keras.preprocessing import image as keras_image
+import os
+from dotenv import load_dotenv
+import pymongo
+import requests
+import numpy as np
+from PIL import Image
+import io
+from concurrent.futures import ThreadPoolExecutor
+import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+print("Starting classifier script...")
+
+# Load .env file
+load_dotenv()
+
+# Retrieve res from MongoDB
+client = pymongo.MongoClient(os.getenv("MONGO_URL"))
+db = client[os.getenv("MONGO_COLLECTION")]
+collection = db["scraped_data"]
+data = list(collection.find())
+
+# Remove duplicates
+unique_data = {entry["image_url"]: entry for entry in data}
+data = list(unique_data.values())
+
+# Extract features
+image_data = {entry["image_url"]: {"name": entry["image_name"], "source": entry["source"]} for entry in data}
+image_urls = list(image_data.keys())
+print(f"Found {len(image_urls)} images")
+
+# Load pre-trained ResNet50 model
+print("Loading pre-trained ResNet50 model...")
+model = ResNet50(weights='imagenet')
+print("Model loaded successfully")
+
+# Create a Session object
+session = requests.Session()
+
+def classify_image(image_url):
+    if image_url.startswith('data:'):
+        return [(None, None, None)]
+
+    try:
+        # Get image data from URL
+        response = session.get(image_url, timeout=10)
+        img_data = response.content
+    except requests.exceptions.Timeout:
+        print(f"Request to {image_url} timed out, skipping.")
+        return [(None, None, None)]
+
+    try:
+        # Load image into PIL Image object
+        img = Image.open(io.BytesIO(img_data))
+
+        # Convert image to RGB
+        img = img.convert('RGB')
+
+        # Resize image to 224x224 pixels, the input size that ResNet50 expects
+        img = img.resize((224, 224))
+
+        # Convert the image to a numpy array and preprocess it for ResNet50
+        x = keras_image.img_to_array(img)
+        x = np.expand_dims(x, axis=0)
+        x = preprocess_input(x)
+
+        # Use the ResNet50 model to classify the image
+        preds = model.predict(x)
+
+        # Decode the predictions into a list of tuples (class, description, probability)
+        # (one such list for each sample in the batch)
+        decoded_preds = decode_predictions(preds, top=1)[0]
+
+        # Return the predictions
+        return decoded_preds
+    except IOError:
+        print(f"Unable to classify image: {image_url}")
+        return [(None, None, None)]
+
+# Enable parallel processing
+# Enable parallel processing
+with ThreadPoolExecutor(max_workers=10) as executor:
+    futures = {executor.submit(classify_image, image_url): image_url for image_url in image_urls}
+    preds = []
+    for future in as_completed(futures):
+        image_url = futures[future]
+        try:
+            result = future.result(timeout=10)
+            preds.append(result)
+        except Exception as e:
+            print(f"Classification took too long for image: {image_url}, skipping. Error: {e}")
+            preds.append([(None, None, None)])
+
+selected_images = []
+desired_labels = ["cat"]
+
+# Classify images and select those that are classified as "cat"
+for image_url, pred in zip(image_urls, preds):
+    _, label, _ = pred[0]
+    print(f"Label: {label}")
+    if label is None:
+        continue
+    if 'cat' in label:
+        selected_images.append(image_url)
+        
+print(f"Selected {len(selected_images)} images")
+
+# Post selected images to API endpoint
+api_endpoint = "https://api.b1o.co/player"
+for i in range(0, len(selected_images), 10):  # Batch API requests
+    batch = selected_images[i:i+10]
+    for image_url in batch:
+        payload = {
+            "name": image_data[image_url]["name"],
+            "image_url": image_url,
+            "source": image_data[image_url]["source"]
+        }
+        try:
+            response = requests.post(api_endpoint, json=payload)
+            response.raise_for_status()  # Raise exception if the request failed
+            print(f"Image posted successfully: {image_url}")
+        except (requests.exceptions.RequestException, IOError):
+            print(f"Failed to post image: {image_url}")

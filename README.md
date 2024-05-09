@@ -15,7 +15,7 @@ A Full-Stack Rust application where users can vote for their favorite images. In
 
 - [`/database`](/database): database models, migrations and seeds
 
-- [`/mlp`](/mlp): Multilayer Feed-Forward Neural Network (type MLP)
+- [`/mlp`](/mlp): classifier that uses the pre-trained [ResNet50](https://pytorch.org/hub/nvidia_deeplearningexamples_resnet50/) model to classify and post images
 
 - [`/shared`](/shared): resources used by two or more components
 
@@ -129,7 +129,8 @@ BACKEND_HOST_INTERNAL=0.0.0.0
 BACKEND_PORT=8080
 BACKEND_PROTOCOL=http
 
-MONGO_URL=http
+MONGO_URL=<SECRET>
+MONGO_COLLECTION=<SECRET>
 ```
 
 ### Running the App

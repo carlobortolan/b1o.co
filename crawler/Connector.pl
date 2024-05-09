@@ -9,8 +9,9 @@ use Config::Simple;
 # Config
 my $cfg = new Config::Simple('./../.env');
 my $mongo_url = $cfg->param('MONGO_URL');
+my $mongo_collection = $cfg->param('MONGO_COLLECTION');
 my $client = MongoDB::MongoClient->new(host => $mongo_url);
-my $db = $client->get_database('spider_web');
+my $db = $client->get_database($mongo_collection);
 
 for my $worker_dir (glob "data/*") {
     next unless -d $worker_dir;

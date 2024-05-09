@@ -12,10 +12,11 @@ my $cfg = new Config::Simple('./../.env');
 
 # Get MongoDB URL from .env
 my $mongo_url = $cfg->param('MONGO_URL');
+my $mongo_collection = $cfg->param('MONGO_COLLECTION');
 
 # Config
 my $client = MongoDB::MongoClient->new(host => $mongo_url);
-my $db = $client->get_database('spider_web');
+my $db = $client->get_database($mongo_collection);
 
 # Fetch default values from MongoDB
 my $queue_collection = $db->get_collection('queued_sites');
