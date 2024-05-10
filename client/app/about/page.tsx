@@ -61,7 +61,7 @@ export default function About() {
           >
             Convolutional Neural Network (CNN)
           </a>{" "}
-          classifies the images , while a{" "}
+          classifies the images, while a{" "}
           <a
             href="https://en.wikipedia.org/wiki/Multilayer_perceptron"
             target="_blank"
