@@ -54,20 +54,28 @@ export default function About() {
         <p className="text-justify">
           A{" "}
           <a
-            href="https://en.wikipedia.org/wiki/Feedforward_neural_network#Mathematical_foundations"
+            href="https://en.wikipedia.org/wiki/Convolutional_neural_network"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-500 hover:underline"
           >
-            Multi-Layer Feed-Forward Network
+            Convolutional Neural Network (CNN)
           </a>{" "}
-          is then used to analyze voting patterns and image characteristics to
-          predict accurate base rankings for new images. As always, any use of
-          AI is done with the utmost respect for user privacy and without the
-          use of cookies or any form of tracking. <br /> The b1o.co API is
-          written in Rust and uses the Actix web framework to provide a fast
-          experience for users. If you find any issues or have suggestions for
-          improvement, please submit them{" "}
+          classifies the images , while a{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Multilayer_perceptron"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            Multilayer Perceptron (MLP)
+          </a>{" "}
+          is then used to analyze voting patterns and image characteristics. As
+          always, any use of AI is done with the utmost respect for user privacy
+          and without the use of cookies or any form of tracking. <br /> The
+          b1o.co API is written in Rust and uses the Actix web framework to
+          provide a fast experience for users. If you find any issues or have
+          suggestions for improvement, please submit them{" "}
           <a
             href="https://github.com/carlobortolan/b1o.co/issues"
             target="_blank"

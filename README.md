@@ -15,7 +15,7 @@ A Full-Stack Rust application where users can vote for their favorite images. In
 
 - [`/database`](/database): database models, migrations and seeds
 
-- [`/mlp`](/mlp): classifier that uses the pre-trained [ResNet50](https://pytorch.org/hub/nvidia_deeplearningexamples_resnet50/) model to classify and post images
+- [`/cnn`](/cnn): classifier that uses the pre-trained [ResNet50](https://pytorch.org/hub/nvidia_deeplearningexamples_resnet50/) model to classify and post images
 
 - [`/shared`](/shared): resources used by two or more components
 

@@ -13,10 +13,10 @@ and then start the script:
 python api_classifier.py
 ```
 
-# Multilayer Perceptron (MLP)
+# Convolutional neural network (CNN)
 
 > ![NOTE]
-> The MLP is not implemented yet
+> The CNN is not implemented yet
 
 The model consists of an input layer, one hidden layer, and an output layer:
 
