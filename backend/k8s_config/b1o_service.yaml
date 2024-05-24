@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: b1o-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: b1o-service
+  template:
+    metadata:
+      labels:
+        app: b1o-service
+    spec:
+      containers:
+      - name: b1o-service
+        image: docker.io/carlobortolan/b1o.co:v0.8
+        ports:
+        - containerPort: 8080
+          name: b1o-service
+        resources:
+          requests:
+            cpu: 1m
+            memory: 150Mi
+          limits:
+            cpu: 75m
+            memory: 1000Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: b1o-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: b1o-service

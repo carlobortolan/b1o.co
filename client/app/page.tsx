@@ -17,7 +17,7 @@ export default function Home() {
   }, []);
 
   const handleStart = () => {
-    fetch("https://api.b1o.co/start", {
+    fetch("http://api.b1o.co/start", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export default function Home() {
 
   const handleClickLeft = () => {
     setRightIsLoading(true);
-    fetch(`https://api.b1o.co/next?winner=${left?.id}&loser=${right?.id}`, {
+    fetch(`http://api.b1o.co/next?winner=${left?.id}&loser=${right?.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export default function Home() {
 
   const handleClickRight = () => {
     setLeftIsLoading(true);
-    fetch(`https://api.b1o.co/next?winner=${right?.id}&loser=${left?.id}`, {
+    fetch(`http://api.b1o.co/next?winner=${right?.id}&loser=${left?.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

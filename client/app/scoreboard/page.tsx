@@ -13,7 +13,7 @@ export default function Scoreboard() {
   const loadMore = () => {
     if (!loading && hasMore) {
       setLoading(true);
-      fetch(`https://api.b1o.co/scoreboard?page=${page}&limit=48`)
+      fetch(`http://api.b1o.co/scoreboard?page=${page}&limit=48`)
         .then((response) => response.json())
         .then((newData) => {
           setData((prevData) => [...prevData, ...newData]);

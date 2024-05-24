@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: b1o-ingress
+spec:
+  rules:
+  - host: api.b1o.co
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: b1o-service
+            port:
+              number: 80
