@@ -1,7 +1,5 @@
 # Crawler
 
-_"definitely necessary to bring out emacs and modify that perl script"_
-
 ## What's this?
 
 This Perl script is a simple "polite" web crawler designed to traverse and gather data from a specified starting webpage.
